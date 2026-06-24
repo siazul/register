@@ -5,30 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JDIH REGISTER HUKUM</title>
     <style>
-    body, html { 
-        margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; 
-    }
-    .wrapper {
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        position: relative;
-    }
-    iframe { 
-        position: absolute;
-        top: -50px;       /* Hanya memotong sedikit bagian atas */
-        left: 0;
-        width: 100%; 
-        height: calc(100% + 50px);
-        border: none;
-        /* Tambahkan ini untuk mencegah pergeseran sisi kiri */
-        box-sizing: border-box;
-    }
-</style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #007bff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <div class="wrapper">
-        <iframe src="https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"></iframe>
-    </div>
+
+    <div class="loader"></div>
+    <h3>Memuat JDIH Register Hukum...</h3>
+    <p>Harap tunggu sebentar.</p>
+
+    <script>
+        // Mengarahkan ke aplikasi utama setelah 1.5 detik
+        setTimeout(function() {
+            window.location.href = "https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec";
+        }, 1500);
+    </script>
 </body>
 </html>
