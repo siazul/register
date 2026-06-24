@@ -14,29 +14,18 @@
             overflow: hidden; 
             background-color: #ffffff;
         }
-
-        /* Container untuk menampung iframe */
-        .wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* Mengatur iframe agar menutupi header Google */
+        /* Mengatur iframe agar memenuhi layar HP dan Laptop */
         iframe { 
             position: absolute;
-            top: -55px; /* Menggeser header Google ke atas agar keluar dari layar */
+            top: 0;
             left: 0;
             width: 100%; 
-            height: calc(100% + 55px); /* Menambah tinggi agar aplikasi tidak terpotong */
+            height: 100%; 
             border: none; 
         }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <iframe src="https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"></iframe>
-    </div>
+    <iframe src="https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"></iframe>
 </body>
 </html>
