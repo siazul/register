@@ -5,47 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JDIH REGISTER HUKUM</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f7f6;
+        /* Menghilangkan scrollbar dan margin agar aplikasi tampil penuh */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%;
+            overflow: hidden; 
+            background-color: #ffffff;
         }
-        .container {
-            text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+        /* Container untuk menampung iframe */
+        .wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
-        h1 { color: #333; margin-bottom: 20px; }
-        .btn-link {
-            display: inline-block;
-            background-color: #007bff;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
-            transition: background-color 0.3s;
+
+        /* Mengatur iframe agar menutupi header Google */
+        iframe { 
+            position: absolute;
+            top: -55px; /* Menggeser header Google ke atas agar keluar dari layar */
+            left: 0;
+            width: 100%; 
+            height: calc(100% + 55px); /* Menambah tinggi agar aplikasi tidak terpotong */
+            border: none; 
         }
-        .btn-link:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Aplikasi JDIH Register</h1>
-        <p>Silakan klik tombol di bawah untuk membuka aplikasi.</p>
-        <br>
-        <a href="https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec" 
-           target="_blank" 
-           class="btn-link">
-           Buka Aplikasi Register
-        </a>
+    <div class="wrapper">
+        <iframe src="https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"></iframe>
     </div>
 </body>
 </html>
