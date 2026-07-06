@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JDIH | Register Hukum</title>
     <style>
-        /* Menghilangkan scrollbar dan margin agar aplikasi tampil penuh */
         body, html { 
             margin: 0; 
             padding: 0; 
@@ -14,7 +13,6 @@
             overflow: hidden; 
             background-color: #ffffff;
         }
-        /* Mengatur iframe agar memenuhi layar HP dan Laptop */
         iframe { 
             position: absolute;
             top: 0;
@@ -26,10 +24,11 @@
     </style>
 </head>
 <body>
+    <!-- Ganti URL ini dengan deployment ID baru dari Google Apps Script -->
     <iframe 
-    src="https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"
-    sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-    title="JDIH Register Hukum">
-</iframe>
+        src="https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"
+        title="JDIH Register Hukum"
+        allow="geolocation; microphone; camera">
+    </iframe>
 </body>
 </html>
