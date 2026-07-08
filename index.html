@@ -3,19 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>JDIH | Register Hukum</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
 </head>
 <body>
-    <div id="app">Memuat data...</div>
+    <h2>Daftar Register Hukum</h2>
+    <table id="tabelData">
+        <thead><tr id="header"></tr></thead>
+        <tbody id="isi"></tbody>
+    </table>
 
     <script>
-        // URL Web App GAS Anda (Pastikan sudah di-deploy sebagai Web App)
-        const url = "https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec";
+        const url = "https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"; // Masukkan URL hasil deploy baru
 
         fetch(url)
-            .then(response => response.text())
+            .then(res => res.json())
             .then(data => {
-                document.getElementById('app').innerHTML = data;
-            });
+                const header = document.getElementById('header');
+                const isi = document.getElementById('isi');
+
+                // Render Header
+                data[0].forEach(col => header.innerHTML += `<th>${col}</th>`);
+
+                // Render Isi Data
+                for(let i = 1; i < data.length; i++) {
+                    let row = "<tr>";
+                    data[i].forEach(cell => row += `<td>${cell}</td>`);
+                    row += "</tr>";
+                    isi.innerHTML += row;
+                }
+            })
+            .catch(err => console.error("Gagal memuat:", err));
     </script>
 </body>
 </html>
