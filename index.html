@@ -2,36 +2,20 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JDIH | Register Hukum</title>
-    <style>
-        /* Menghilangkan scrollbar dan margin agar aplikasi tampil penuh */
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            width: 100%;
-            overflow: hidden; 
-            background-color: #ffffff;
-        }
-        /* Mengatur iframe agar memenuhi layar HP dan Laptop */
-        iframe { 
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%; 
-            height: 100%; 
-            border: none; 
-        }
-    </style>
 </head>
 <body>
-    <iframe 
-    src="https://script.google.com/macros/s/AKfycbwtg8OtUdqO5OGZ0xENB3VKu7Rezml3yEZDcZ6GpzzBG681aciP3tZjhrQYyo2AGx6X/exec" 
-    width="100%" 
-    height="100%" 
-    frameborder="0" 
-    allowfullscreen>
-</iframe>
+    <div id="app">Memuat data...</div>
+
+    <script>
+        // URL Web App GAS Anda (Pastikan sudah di-deploy sebagai Web App)
+        const url = "https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec";
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('app').innerHTML = data;
+            });
+    </script>
 </body>
 </html>
