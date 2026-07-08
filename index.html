@@ -2,42 +2,237 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JDIH | Register Hukum</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
+        :root {
+            --primary-color: #0056b3;
+            --bg-color: #f4f6f9;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 { text-align: center; color: var(--primary-color); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        
+        /* Form & Tombol */
+        input, select, button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background-color: #004494; }
+        .btn-danger { background-color: #dc3545; }
+        .btn-danger:hover { background-color: #c82333; }
+
+        /* Tabel */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: var(--primary-color); color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+
+        /* Tampilan Mode */
+        #appSection, #formSection { display: none; }
+        
+        /* Notifikasi */
+        #statusMsg { text-align: center; font-weight: bold; margin-bottom: 10px; color: #d9534f; }
     </style>
 </head>
 <body>
-    <h2>Daftar Register Hukum</h2>
-    <table id="tabelData">
-        <thead><tr id="header"></tr></thead>
-        <tbody id="isi"></tbody>
-    </table>
 
-    <script>
-        const url = "https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"; // Masukkan URL hasil deploy baru
+<div class="container">
+    <h2>Portal Arsip & Register Produk Hukum</h2>
+    <div id="statusMsg"></div>
 
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                const header = document.getElementById('header');
-                const isi = document.getElementById('isi');
+    <div id="loginSection" style="display: block; text-align: center;">
+        <h3>Login Sistem</h3>
+        <input type="password" id="inputPassword" placeholder="Masukkan Password JDIH">
+        <button onclick="prosesLogin()">Masuk</button>
+    </div>
 
-                // Render Header
-                data[0].forEach(col => header.innerHTML += `<th>${col}</th>`);
+    <div id="appSection">
+        <button onclick="tampilkanForm()">+ Tambah Produk Hukum Baru</button>
+        <button onclick="muatData()" style="background-color: #28a745;">Segarkan Data</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Jenis Produk</th>
+                    <th>Tahun</th>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Tentang</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="tabelBody">
+                <tr><td colspan="6" style="text-align: center;">Memuat data...</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-                // Render Isi Data
-                for(let i = 1; i < data.length; i++) {
-                    let row = "<tr>";
-                    data[i].forEach(cell => row += `<td>${cell}</td>`);
-                    row += "</tr>";
-                    isi.innerHTML += row;
-                }
-            })
-            .catch(err => console.error("Gagal memuat:", err));
-    </script>
+    <div id="formSection">
+        <h3>Formulir Register Hukum</h3>
+        <input type="text" id="jenisProduk" placeholder="Jenis Produk (Misal: Perbup/Perda)" style="width: 100%;"><br>
+        <input type="number" id="tahun" placeholder="Tahun" style="width: 100%;"><br>
+        <input type="text" id="noProduk" placeholder="Nomor Produk (Kosongkan jika otomatis)" style="width: 100%;"><br>
+        <input type="date" id="tanggal" style="width: 100%;"><br>
+        <input type="text" id="tentang" placeholder="Tentang" style="width: 100%;"><br>
+        <input type="text" id="nomerSeri" placeholder="Nomor Seri" style="width: 100%;"><br>
+        <input type="text" id="perangkatDaerah" placeholder="Perangkat Daerah (Misal: Bagian Hukum)" style="width: 100%;"><br>
+        <input type="text" id="keterangan" placeholder="Keterangan Tambahan" style="width: 100%;"><br>
+        
+        <button onclick="simpanData()" style="width: 100%; margin-top: 15px;">Simpan Arsip</button>
+        <button onclick="batalForm()" class="btn-danger" style="width: 100%;">Batal</button>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // URL WEB APP GAS ANDA (GANTI DENGAN URL DEPLOY TERBARU)
+    // ==========================================
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbxd1gzK35bnS1L0np7H5PDwbSsv6opcbUQ1GCLj_xciJc2q1WBi42_dd6fPqUZiMCqy/exec"; 
+    
+    let sessionPass = "";
+
+    // FUNGSI PENGHUBUNG KE API GOOGLE APPS SCRIPT
+    async function panggilAPI(action, payload = null) {
+        document.getElementById("statusMsg").innerText = "Memproses...";
+        try {
+            const response = await fetch(GAS_URL, {
+                method: "POST",
+                // Penting: Gunakan text/plain untuk menghindari error CORS Preflight di GAS
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: action,
+                    pass: sessionPass,
+                    payload: payload
+                })
+            });
+            const result = await response.json();
+            document.getElementById("statusMsg").innerText = "";
+            
+            if(result.status === "error") {
+                alert("Error: " + result.message);
+                return null;
+            }
+            return result.data;
+        } catch (error) {
+            document.getElementById("statusMsg").innerText = "Gagal terhubung ke server.";
+            console.error(error);
+            return null;
+        }
+    }
+
+    // 1. FUNGSI LOGIN
+    async function prosesLogin() {
+        sessionPass = document.getElementById("inputPassword").value;
+        const res = await panggilAPI("login");
+        
+        if (res && res.status === true) {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("appSection").style.display = "block";
+            muatData();
+        } else {
+            alert(res ? res.pesan : "Gagal Login");
+        }
+    }
+
+    // 2. FUNGSI MENGAMBIL DATA (READ)
+    async function muatData() {
+        const tbody = document.getElementById("tabelBody");
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Mengambil data dari server...</td></tr>';
+        
+        const data = await panggilAPI("ambilData");
+        if (data) {
+            tbody.innerHTML = "";
+            if(data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Belum ada arsip hukum.</td></tr>';
+                return;
+            }
+            
+            data.forEach(row => {
+                // Sesuai GAS: row[0]=Jenis, row[1]=Tahun, row[2]=No, row[3]=Tanggal, row[4]=Tentang, row[8]=RowIndex
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${row[0]}</td>
+                    <td>${row[1]}</td>
+                    <td>${row[2]}</td>
+                    <td>${row[3]}</td>
+                    <td>${row[4]}</td>
+                    <td>
+                        <button class="btn-danger" onclick="hapusData(${row[8]})">Hapus</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    }
+
+    // 3. FUNGSI MENAMPILKAN FORM TAMBAH DATA
+    function tampilkanForm() {
+        document.getElementById("appSection").style.display = "none";
+        document.getElementById("formSection").style.display = "block";
+        // Kosongkan form
+        document.querySelectorAll("input:not([type='password'])").forEach(input => input.value = "");
+    }
+
+    function batalForm() {
+        document.getElementById("formSection").style.display = "none";
+        document.getElementById("appSection").style.display = "block";
+    }
+
+    // 4. FUNGSI MENYIMPAN DATA (CREATE)
+    async function simpanData() {
+        const payload = {
+            jenisProduk: document.getElementById("jenisProduk").value,
+            tahun: document.getElementById("tahun").value,
+            no: document.getElementById("noProduk").value,
+            tanggal: document.getElementById("tanggal").value,
+            tentang: document.getElementById("tentang").value,
+            nomerSeri: document.getElementById("nomerSeri").value,
+            perangkatDaerah: document.getElementById("perangkatDaerah").value,
+            keterangan: document.getElementById("keterangan").value
+        };
+
+        const res = await panggilAPI("simpan", payload);
+        if (res) {
+            alert(res); // Menampilkan pesan sukses dari GAS
+            batalForm();
+            muatData(); // Segarkan tabel
+        }
+    }
+
+    // 5. FUNGSI MENGHAPUS DATA (DELETE)
+    async function hapusData(rowIndex) {
+        if (confirm("Apakah Anda yakin ingin menghapus arsip ini secara permanen?")) {
+            const res = await panggilAPI("hapus", rowIndex);
+            if (res) {
+                alert(res);
+                muatData(); // Segarkan tabel
+            }
+        }
+    }
+</script>
+
 </body>
 </html>
